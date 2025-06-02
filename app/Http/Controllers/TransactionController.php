@@ -10,13 +10,15 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        $transactions = Transaction::whereHas('booking', function($query) {
-                $query->where('user_id', Auth::id());
+        $transactions = Transaction::with(['booking.service'])
+            ->when(Auth::user()->role === 'customer', function($query) {
+                return $query->whereHas('booking', function($q) {
+                    $q->where('user_id', Auth::id());
+                });
             })
-            ->with(['booking.vehicle', 'booking.service'])
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->paginate(10);
-            
+
         return view('transactions.index', compact('transactions'));
     }
 }

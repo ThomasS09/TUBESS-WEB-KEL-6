@@ -31,27 +31,29 @@ class BookingController extends Controller
             'vehicle_id' => 'required|exists:vehicles,id',
             'service_id' => 'required|exists:services,id',
             'booking_time' => 'required|date|after:now',
-            'notes' => 'nullable|string',
+            'notes' => 'nullable|string'
         ]);
 
+        $service = Service::findOrFail($request->service_id);
+        
         $booking = Booking::create([
             'user_id' => Auth::id(),
             'vehicle_id' => $request->vehicle_id,
             'service_id' => $request->service_id,
             'booking_time' => $request->booking_time,
-            'status' => 'pending',
             'notes' => $request->notes,
+            'status' => 'pending'
         ]);
 
-        // Ambil harga service dan buat transaksi
-        $amount = Service::find($request->service_id)->price;
+        // Buat transaksi secara otomatis
         Transaction::create([
             'booking_id' => $booking->id,
-            'amount' => $amount,
-            'payment_status' => 'pending'
+            'amount' => $service->price,
+            'status' => 'pending'
         ]);
 
-        return redirect()->route('bookings.index')->with('success', 'Booking created successfully.');
+        return redirect()->route('bookings.show', $booking)
+            ->with('success', 'Booking created successfully.');
     }
 
     public function show(Booking $booking)

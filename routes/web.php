@@ -6,6 +6,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\WorkScheduleController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -33,6 +34,10 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('vehicles', VehicleController::class);
         Route::resource('bookings', BookingController::class);
     });
+
+    // Transaction routes
+    Route::get('/transactions', [TransactionController::class, 'index'])
+        ->name('transactions.index');
 
     // Profile routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

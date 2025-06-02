@@ -5,8 +5,9 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <a href="{{ route('dashboard') }}" class="flex items-center">
+                        <!-- Ganti Logo dan Text -->
+                        <span class="text-xl font-bold text-gray-800">AUTOWASH</span>
                     </a>
                 </div>
 
@@ -25,6 +26,9 @@
                             </x-nav-link>
                             <x-nav-link :href="route('reports')" :active="request()->routeIs('reports')">
                                 {{ __('Reports') }}
+                            </x-nav-link>
+                            <x-nav-link :href="route('transactions.index')" :active="request()->routeIs('transactions.index')">
+                                {{ __('Transactions') }}
                             </x-nav-link>
                         @elseif(auth()->user()->isCustomer())
                             <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
@@ -116,6 +120,9 @@
                     </x-responsive-nav-link>
                     <x-responsive-nav-link :href="route('reports')" :active="request()->routeIs('reports')">
                         {{ __('Reports') }}
+                    </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('transactions.index')" :active="request()->routeIs('transactions.index')">
+                        {{ __('Transactions') }}
                     </x-responsive-nav-link>
                 @elseif(auth()->user()->isCustomer())
                     <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
