@@ -28,15 +28,23 @@ class DashboardController extends Controller
     }
 
     public function employeeDashboard()
-    {
-        // Make sure you're using the correct column name
-        $upcomingSchedules = WorkSchedule::where('employee_id', Auth::id())
-            ->whereDate('date', '>=', now())
-            ->orderBy('date', 'asc')
-            ->get();
+{
+    $user = Auth::user();
+    $today = now()->toDateString();
 
-        return view('dashboard.employee', compact('upcomingSchedules'));
-    }
+    $todaySchedules = WorkSchedule::where('employee_id', $user->id)
+        ->whereDate('date', $today)
+        ->orderBy('date') // Ganti 'start_time' dengan kolom yang ada, misal 'date'
+        ->get();
+
+    $upcomingSchedules = WorkSchedule::where('employee_id', $user->id)
+        ->whereDate('date', '>', $today)
+        ->orderBy('date')
+        ->limit(5)
+        ->get();
+
+    return view('dashboard.employee', compact('todaySchedules', 'upcomingSchedules'));
+}
 
     public function customerDashboard()
     {

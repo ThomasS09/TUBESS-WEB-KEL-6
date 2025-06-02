@@ -27,29 +27,29 @@ class WorkScheduleController extends Controller
 
     public function create()
     {
-        $employees = User::where('role', 'employee')->get();
-        return view('work-schedules.create', compact('employees'));
+            $employees = \App\Models\User::where('role', 'employee')->get();
+    return view('work-schedules.create', compact('employees'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'employee_id' => 'required|exists:users,id',
-            'start_time' => 'required|date_format:H:i',
-            'end_time' => 'required|date_format:H:i|after:start_time',
-            'notes' => 'nullable|string',
-        ]);
+        'employee_id' => 'required|exists:users,id',
+        'start_time' => 'required|date_format:H:i',
+        'end_time' => 'required|date_format:H:i|after:start_time',
+        'notes' => 'nullable|string',
+    ]);
 
-        WorkSchedule::create([
-            'employee_id' => $request->employee_id,
-            'date' => now()->toDateString(), // Menggunakan tanggal hari ini
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
-            'notes' => $request->notes,
-        ]);
+    WorkSchedule::create([
+        'employee_id' => $request->employee_id,
+        'date' => now()->toDateString(),
+        'start_time' => $request->start_time,
+        'end_time' => $request->end_time,
+        'notes' => $request->notes,
+    ]);
 
-        return redirect()->route('work-schedules.index')
-            ->with('success', 'Jadwal kerja berhasil ditambahkan.');
+    // Redirect ke dashboard setelah berhasil simpan
+    return redirect()->route('employee.dashboard')->with('success', 'Jadwal berhasil ditambahkan!');
     }
 
     public function show(WorkSchedule $workSchedule)
@@ -84,4 +84,19 @@ class WorkScheduleController extends Controller
         $workSchedule->delete();
         return redirect()->route('work-schedules.index')->with('success', 'Work schedule deleted successfully.');
     }
+
+    public function todayWork()
+{
+    $user = Auth::user();
+    $today = now()->toDateString();
+
+    $todaySchedules = WorkSchedule::where('employee_id', $user->id)
+        ->whereDate('date', $today)
+        ->orderBy('start_time')
+        ->get();
+
+
+return view('work-schedules.show', compact('todaySchedules'));
+}
+
 }
