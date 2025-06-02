@@ -1,66 +1,59 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-2xl text-gray-900 leading-tight">
-            {{ __('Create New Work Schedule') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12 bg-gray-50 min-h-screen">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white shadow-md rounded-lg p-8">
-                <form action="{{ route('work-schedules.store') }}" method="POST" class="space-y-6">
-                    @csrf
-                    <div>
-                        <label for="employee_id" class="block text-sm font-medium text-gray-700 mb-1">Employee</label>
-                        <select name="employee_id" id="employee_id" required
-                            class="block w-full rounded-md border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                            <option value="">Select Employee</option>
-                            @foreach($employees as $employee)
-                                <option value="{{ $employee->id }}">{{ $employee->name }}</option>
-                            @endforeach
-                        </select>
-                        @error('employee_id')
-                            <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
+@section('content')
+<div class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md transition transform hover:scale-[1.01] duration-300">
+        <h2 class="text-center text-xl font-semibold text-indigo-600 mb-6">Tambah Jadwal Kerja</h2>
 
-                    <div>
-                        <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date</label>
-                        <input type="date" name="date" id="date" required
-                            class="block w-full rounded-md border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
-                        @error('date')
-                            <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label for="shift" class="block text-sm font-medium text-gray-700 mb-1">Shift</label>
-                        <select name="shift" id="shift" required
-                            class="block w-full rounded-md border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                            <option value="">-- Select Shift --</option>
-                            <option value="morning">Morning</option>
-                            <option value="afternoon">Afternoon</option>
-                            <option value="night">Night</option>
-                        </select>
-                        @error('shift')
-                            <p class="text-red-600 text-xs mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-
-                    <div>
-                        <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">Notes (Optional)</label>
-                        <textarea id="notes" name="notes" rows="4"
-                            class="block w-full rounded-md border border-gray-300 shadow-sm py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
-                    </div>
-
-                    <div class="flex justify-end">
-                        <button type="submit"
-                            class="inline-flex items-center px-6 py-3 bg-indigo-600 text-white font-semibold rounded-md shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            {{ __('Save Schedule') }}
-                        </button>
-                    </div>
-                </form>
+        @if ($errors->any())
+            <div class="mb-4 text-sm text-red-600">
+                <ul class="list-disc pl-5">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
-        </div>
+        @endif
+
+        <form method="POST" action="{{ route('work-schedules.store') }}" class="space-y-4">
+            @csrf
+
+            <div>
+                <label for="start_time" class="block text-sm font-medium text-gray-700">Start Time</label>
+                <input type="time" name="start_time" id="start_time"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition">
+            </div>
+
+            <div>
+                <label for="end_time" class="block text-sm font-medium text-gray-700">End Time</label>
+                <input type="time" name="end_time" id="end_time"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition">
+            </div>
+
+            <div>
+                <label for="employee_id" class="block text-sm font-medium text-gray-700">Employee</label>
+                <select name="employee_id" id="employee_id"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition">
+                    <option disabled selected>Pilih Karyawan</option>
+                    @foreach ($employees as $employee)
+                        <option value="{{ $employee->id }}">{{ $employee->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div>
+                <label for="notes" class="block text-sm font-medium text-gray-700">Notes (Optional)</label>
+                <textarea name="notes" id="notes" rows="3"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 transition"></textarea>
+            </div>
+
+            <div class="pt-4">
+                <button type="submit"
+                    class="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg shadow hover:bg-indigo-700 transition">
+                    Simpan Jadwal
+                </button>
+            </div>
+        </form>
     </div>
-</x-app-layout>
+</div>
+@endsection

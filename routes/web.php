@@ -27,6 +27,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'employeeDashboard'])->name('employee.dashboard');
         Route::resource('work-schedules', WorkScheduleController::class);
         Route::resource('schedules', ScheduleController::class);
+        Route::post('/employee/work-schedules', [WorkScheduleController::class, 'store'])->name('work-schedules.store');
+        Route::get('/today-work', [WorkScheduleController::class, 'todayWork'])->name('employee.today-work');
+
     });
 
     // Customer routes
