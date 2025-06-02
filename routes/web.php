@@ -1,0 +1,43 @@
+<?php
+
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\BookingController;
+use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\WorkScheduleController;
+use App\Http\Controllers\ScheduleController;
+use Illuminate\Support\Facades\Route;
+
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::middleware(['auth'])->group(function () {
+    // Dashboard route
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Admin routes
+    Route::middleware(['role:admin'])->prefix('admin')->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'adminDashboard'])->name('admin.dashboard');
+    });
+
+    // Employee routes
+    Route::middleware(['role:employee'])->prefix('employee')->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'employeeDashboard'])->name('employee.dashboard');
+        Route::resource('work-schedules', WorkScheduleController::class);
+        Route::resource('schedules', ScheduleController::class);
+    });
+
+    // Customer routes
+    Route::middleware(['role:customer'])->group(function () {
+        Route::resource('vehicles', VehicleController::class);
+        Route::resource('bookings', BookingController::class);
+    });
+
+    // Profile routes
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';
