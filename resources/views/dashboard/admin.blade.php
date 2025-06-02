@@ -27,7 +27,7 @@
 
                         <div class="bg-yellow-50 p-6 rounded-lg shadow">
                             <div class="flex items-center">
-                                <div class="p-3 rounded-full bg-yellow-100 text-yellow-600">
+                                <div class="p-3 rounded-full    bg-yellow-100 text-yellow-600">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
@@ -100,15 +100,7 @@
 
                     <!-- Quick Actions -->
                     <div class="flex space-x-4">
-                        <a href="{{ route('admin.bookings.index') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
-                            Manage Bookings
-                        </a>
-                        <a href="{{ route('services.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150">
-                            Manage Services
-                        </a>
-                        <a href="{{ route('reports') }}" class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-700 active:bg-green-900 focus:outline-none focus:border-green-900 focus:ring ring-green-300 disabled:opacity-25 transition ease-in-out duration-150">
-                            View Reports
-                        </a>
+                       
                     </div>
                 </div>
             </div>

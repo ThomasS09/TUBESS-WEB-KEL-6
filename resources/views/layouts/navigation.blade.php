@@ -18,18 +18,7 @@
                             <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                                 {{ __('Dashboard') }}
                             </x-nav-link>
-                            <x-nav-link :href="route('services.index')" :active="request()->routeIs('services.*')">
-                                {{ __('Services') }}
-                            </x-nav-link>
-                            <x-nav-link :href="route('admin.bookings.index')" :active="request()->routeIs('admin.bookings.*')">
-                                {{ __('Bookings') }}
-                            </x-nav-link>
-                            <x-nav-link :href="route('reports')" :active="request()->routeIs('reports')">
-                                {{ __('Reports') }}
-                            </x-nav-link>
-                            <x-nav-link :href="route('transactions.index')" :active="request()->routeIs('transactions.index')">
-                                {{ __('Transactions') }}
-                            </x-nav-link>
+                            
                         @elseif(auth()->user()->isCustomer())
                             <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                                 {{ __('Dashboard') }}
@@ -112,18 +101,7 @@
                     <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('services.index')" :active="request()->routeIs('services.*')">
-                        {{ __('Services') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('admin.bookings.index')" :active="request()->routeIs('admin.bookings.*')">
-                        {{ __('Bookings') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('reports')" :active="request()->routeIs('reports')">
-                        {{ __('Reports') }}
-                    </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('transactions.index')" :active="request()->routeIs('transactions.index')">
-                        {{ __('Transactions') }}
-                    </x-responsive-nav-link>
+                    
                 @elseif(auth()->user()->isCustomer())
                     <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}

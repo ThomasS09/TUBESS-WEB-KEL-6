@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\WorkSchedule;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use App\Models\Service;
+
 
 class DashboardController extends Controller
 {
@@ -24,7 +27,23 @@ class DashboardController extends Controller
 
     public function adminDashboard()
     {
-        return view('dashboard.admin');
+        // Statistik utama
+        $todayBookings = Booking::whereDate('booking_time', Carbon::today())->count();
+        $pendingBookings = Booking::where('status', 'pending')->count();
+        $totalServices = Service::count();
+
+        // Ambil 5 booking terbaru
+        $recentBookings = Booking::with(['user', 'vehicle', 'service'])
+            ->latest()
+            ->take(5)
+            ->get();
+
+        return view('dashboard.admin', compact(
+            'todayBookings',
+            'pendingBookings',
+            'totalServices',
+            'recentBookings'
+        ));
     }
 
     public function employeeDashboard()
