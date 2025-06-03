@@ -15,9 +15,9 @@
             <tbody>
                 @foreach($todaySchedules as $schedule)
                     <tr>
-                        <td style="padding:8px;border-bottom:1px solid #f0f0f0;">{{ $schedule->start_time ?? '-' }}</td>
-                        <td style="padding:8px;border-bottom:1px solid #f0f0f0;">{{ $schedule->end_time ?? '-' }}</td>
-                        <td style="padding:8px;border-bottom:1px solid #f0f0f0;">{{ $schedule->notes ?? '-' }}</td>
+                        <td style="padding:8px;border-bottom:1px solid #f0f0f0;">{{ $schedule->start_time }}</td>
+                        <td style="padding:8px;border-bottom:1px solid #f0f0f0;">{{ $schedule->end_time }}</td>
+                        <td style="padding:8px;border-bottom:1px solid #f0f0f0;">{{ $schedule->notes  }}</td>
                     </tr>
                 @endforeach
             </tbody>

@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
 
     // Employee routes
     Route::middleware(['role:employee'])->prefix('employee')->group(function () {
-        Route::get('/dashboard', [DashboardController::class, 'employeeDashboard'])->name('employee.dashboard');
+        Route::get('/employee/dashboard', [DashboardController::class, 'employeeDashboard'])->name('employee.dashboard');
         Route::resource('work-schedules', WorkScheduleController::class);
         Route::resource('schedules', ScheduleController::class);
         Route::post('/employee/work-schedules', [WorkScheduleController::class, 'store'])->name('work-schedules.store');

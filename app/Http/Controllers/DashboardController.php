@@ -7,6 +7,7 @@ use App\Models\WorkSchedule;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Models\Service;
+use Illuminate\Http\Request;
 
 
 class DashboardController extends Controller
@@ -47,23 +48,33 @@ class DashboardController extends Controller
     }
 
     public function employeeDashboard()
-{
-    $user = Auth::user();
-    $today = now()->toDateString();
+    {
+        $user = auth()->user();
 
-    $todaySchedules = WorkSchedule::where('employee_id', $user->id)
-        ->whereDate('date', $today)
-        ->orderBy('date') // Ganti 'start_time' dengan kolom yang ada, misal 'date'
-        ->get();
+        // Ambil jadwal hari ini
+        $todaySchedules = WorkSchedule::where('employee_id', $user->id)
+            ->where('date', now()->toDateString())
+            ->orderBy('start_time')
+            ->get();
 
-    $upcomingSchedules = WorkSchedule::where('employee_id', $user->id)
-        ->whereDate('date', '>', $today)
+        // Jadwal mendatang (tanggal > hari ini)
+    $upcomingSchedules = \App\Models\WorkSchedule::where('employee_id', $user->id)
+        ->where('date', '>', now()->toDateString())
         ->orderBy('date')
-        ->limit(5)
         ->get();
 
-    return view('dashboard.employee', compact('todaySchedules', 'upcomingSchedules'));
-}
+        // Ambil semua jadwal (jika ingin tampilkan juga)
+        $schedules = WorkSchedule::where('employee_id', $user->id)
+            ->orderBy('date', 'desc')
+            ->get();
+
+        return view('dashboard.employee', [
+            'todaySchedules' => $todaySchedules,
+            'schedules' => $schedules,
+            'upcomingSchedules' => $upcomingSchedules,
+        ]);
+    
+    }
 
     public function customerDashboard()
     {

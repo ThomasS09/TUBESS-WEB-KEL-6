@@ -108,16 +108,25 @@ public function updateEmployee(Request $request, $id)
 
     public function todayWork()
 {
-    $user = Auth::user();
-    $today = now()->toDateString();
+    $user = auth()->user();
 
-    $todaySchedules = WorkSchedule::where('employee_id', Auth::id())
-        ->whereDate('date', $today)
+    $todaySchedules = \App\Models\WorkSchedule::where('employee_id', $user->id)
+        ->where('date', now()->toDateString())
         ->orderBy('start_time')
         ->get();
 
-
-return view('work-schedules.show', compact('todaySchedules'));
+    return view('work-schedules.show', [
+        'todaySchedules' => $todaySchedules,
+    ]);
 }
 
+public function employeeDashboard()
+{
+    $user = auth()->user();
+    $schedules = \App\Models\WorkSchedule::where('employee_id', $user->id)->orderBy('date', 'desc')->get();
+
+    $upcomingSchedules = $schedules->where('date', '>=', now()->toDateString());
+
+    return view('dashboard.employee', compact('schedules', 'upcomingSchedules'));
+}
 }
