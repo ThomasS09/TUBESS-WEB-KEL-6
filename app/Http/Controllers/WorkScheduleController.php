@@ -31,6 +31,27 @@ class WorkScheduleController extends Controller
     return view('work-schedules.create', compact('employees'));
     }
 
+    public function editEmployee($id)
+{
+   $employee = \App\Models\User::findOrFail($id);
+    $employees = \App\Models\User::where('role', 'employee')->get(); // Tambahkan baris ini
+    return view('work-schedules.edit', compact('employee', 'employees'));
+}
+
+public function updateEmployee(Request $request, $id)
+{
+    $employee = \App\Models\User::findOrFail($id);
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,'.$employee->id,
+    ]);
+    $employee->update([
+        'name' => $request->name,
+        'email' => $request->email,
+    ]);
+    return redirect()->route('employee.dashboard')->with('success', 'Data karyawan berhasil diupdate!');
+}
+
     public function store(Request $request)
     {
         $request->validate([
@@ -90,7 +111,7 @@ class WorkScheduleController extends Controller
     $user = Auth::user();
     $today = now()->toDateString();
 
-    $todaySchedules = WorkSchedule::where('employee_id', $user->id)
+    $todaySchedules = WorkSchedule::where('employee_id', Auth::id())
         ->whereDate('date', $today)
         ->orderBy('start_time')
         ->get();

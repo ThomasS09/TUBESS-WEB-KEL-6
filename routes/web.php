@@ -29,7 +29,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('schedules', ScheduleController::class);
         Route::post('/employee/work-schedules', [WorkScheduleController::class, 'store'])->name('work-schedules.store');
         Route::get('/today-work', [WorkScheduleController::class, 'todayWork'])->name('employee.today-work');
-
+        Route::get('/employee/edit/{id}', [App\Http\Controllers\WorkScheduleController::class, 'editEmployee'])->name('employee.edit');
+        Route::put('/employee/update/{id}', [App\Http\Controllers\WorkScheduleController::class, 'updateEmployee'])->name('employee.update');
     });
 
     // Customer routes

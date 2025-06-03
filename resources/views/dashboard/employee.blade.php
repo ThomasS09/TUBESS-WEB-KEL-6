@@ -36,5 +36,9 @@
             <a href="{{ route('work-schedules.create') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">ADD SCHEDULE</a>
         </div>
     </div>
+
+    <div class="mt-6">
+        <a href="{{ route('employee.edit', Auth::user()->id) }}" class="btn btn-warning">Edit Data Karyawan</a>
+    </div>
 </div>
 @endsection
