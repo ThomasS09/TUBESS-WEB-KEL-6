@@ -50,3 +50,22 @@ Route::middleware(['auth'])->group(function () {
 });
 
 require __DIR__.'/auth.php';
+Route::get('/admin/bookings', function () {
+    return view('admin.bookings');
+})->name('admin.bookings');
+
+Route::get('/admin/services', function () {
+    return view('admin.services');
+})->name('admin.services');
+
+Route::get('/admin/reports', function () {
+    return view('admin.reports');
+})->name('admin.reports');
+
+Route::get('/admin/layanan', function () {
+    return view('admin.layanan');
+})->name('admin.layanan');
+
+Route::get('/admin/statistic', function () {
+    return view('admin.statistic');
+})->name('admin.statistic');

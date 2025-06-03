@@ -15,11 +15,31 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     @auth
                         @if(auth()->user()->isAdmin())
-                            <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
                                 {{ __('Dashboard') }}
                             </x-nav-link>
+
+                            <x-nav-link :href="route('admin.reports')" :active="request()->routeIs('admin.reports')">
+                                {{ __('Reports') }}
+                            </x-nav-link>
+
+                            <x-nav-link :href="route('admin.services')" :active="request()->routeIs('admin.services')">
+                                {{ __('Services') }}
+                            </x-nav-link>
                             
-                        @elseif(auth()->user()->isCustomer())
+                            <x-nav-link :href="route('admin.bookings')" :active="request()->routeIs('admin.bookings')">
+                                {{ __('Bookings') }}
+                            </x-nav-link>
+
+                            <x-nav-link :href="route('admin.layanan')" :active="request()->routeIs('admin.layanan')">
+                                {{ __('Layanan') }}
+                            </x-nav-link>
+                            
+                            <x-nav-link :href="route('admin.statistic')" :active="request()->routeIs('admin.statistic')">
+                                {{ __('Statistics') }}
+                            </x-nav-link> 
+                        
+                            @elseif(auth()->user()->isCustomer())
                             <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                                 {{ __('Dashboard') }}
                             </x-nav-link>
