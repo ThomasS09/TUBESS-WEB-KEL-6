@@ -71,8 +71,11 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $routeMiddleware = [
-        // ... middleware lainnya
+        // ... existing middleware
         'role' => \App\Http\Middleware\CheckRole::class,
+        'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
     ];
 }
 

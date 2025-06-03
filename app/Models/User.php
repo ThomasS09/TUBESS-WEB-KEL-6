@@ -73,16 +73,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if user is customer
-     *
-     * @return bool
-     */
-    public function isCustomer()
-    {
-        return $this->role === 'customer';
-    }
-
-    /**
      * Check if user is employee
      *
      * @return bool
@@ -90,6 +80,16 @@ class User extends Authenticatable
     public function isEmployee()
     {
         return $this->role === 'employee';
+    }
+
+    /**
+     * Check if user is customer
+     *
+     * @return bool
+     */
+    public function isCustomer()
+    {
+        return $this->role === 'customer';
     }
 
     public function workSchedules()
