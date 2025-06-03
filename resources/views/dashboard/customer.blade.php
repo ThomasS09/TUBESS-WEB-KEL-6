@@ -38,6 +38,7 @@
                                             </svg>
                                             {{ $booking->booking_time->format('H:i') }}
                                         </p>
+                                        <</h1>
                                     </div>
                                     <div class="mt-4 flex justify-end">
                                         <a href="{{ route('bookings.show', $booking->id) }}" class="text-sm text-blue-600 hover:text-blue-800">View Details</a>
