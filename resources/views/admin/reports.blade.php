@@ -1,45 +1,79 @@
 <x-app-layout>
-    @section('title', 'Booking Masuk')
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Reports & Analytics') }}
+        </h2>
+    </x-slot>
 
-    @push('styles')
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    @endpush
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <!-- Revenue Card -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
+                <div class="p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Revenue Overview</h3>
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
 
-    @section('content')
-        <div class="container py-5">
-            <h1 class="mb-4">Booking Masuk</h1>
-
-            <table class="table table-bordered table-striped">
-                <thead class="table-dark">
-                    <tr>
-                        <th>ID</th>
-                        <th>Nama Pelanggan</th>
-                        <th>Layanan</th>
-                        <th>Tanggal</th>
-                        <th>Waktu</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{-- Loop data booking --}}
-                    <tr>
-                        <td>1</td>
-                        <td>Ahmad</td>
-                        <td>Cuci Eksterior</td>
-                        <td>2025-06-05</td>
-                        <td>10:00</td>
-                        <td>Pending</td>
-                        <td>
-                            <a href="#" class="btn btn-sm btn-success">Setujui</a>
-                            <a href="#" class="btn btn-sm btn-danger">Tolak</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">Kembali</a>
+            <!-- Service Performance -->
+            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-6">
+                <div class="p-6">
+                    <h3 class="text-lg font-medium text-gray-900 mb-4">Service Performance</h3>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead>
+                                <tr>
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase">Service</th>
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase">Total Bookings</th>
+                                    <th class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase">Revenue</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($service_stats as $service)
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ $service->name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ $service->bookings_count }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">Rp {{ number_format($service->revenue, 0, ',', '.') }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-    @endsection
+    </div>
+
+    @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: @json($monthly_revenue->pluck('month')),
+                datasets: [{
+                    label: 'Monthly Revenue',
+                    data: @json($monthly_revenue->pluck('total')),
+                    backgroundColor: 'rgba(59, 130, 246, 0.5)',
+                    borderColor: 'rgb(59, 130, 246)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return 'Rp ' + value.toLocaleString('id-ID');
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    @endpush
 </x-app-layout>
-    

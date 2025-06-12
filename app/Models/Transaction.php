@@ -9,11 +9,11 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'booking_id',
-        'amount',
-        'status',
-    ];
+   protected $fillable = [
+    'booking_id',
+    'amount',
+    'status'
+];
 
     public function booking()
     {

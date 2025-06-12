@@ -9,6 +9,8 @@ export default {
         './vendor/laravel/jetstream/**/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
+        './resources/**/*.js',
+        './resources/**/*.vue',
     ],
 
     theme: {
@@ -16,6 +18,13 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            colors: {
+                'autowash': {
+                    50: '#f0f9ff',
+                    100: '#e0f2fe',
+                    // ... tambahkan warna kustom lainnya
+                }
+            }
         },
     },
 

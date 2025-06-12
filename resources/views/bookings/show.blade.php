@@ -23,7 +23,7 @@
                                 </div>
                                 <div>
                                     <p class="text-sm font-medium text-gray-500">Date & Time</p>
-                                    <p class="mt-1 text-sm text-gray-900">{{ $booking->booking_time->format('l, d F Y H:i') }}</p>
+                                    <p class="mt-1 text-sm text-gray-900">{{ $booking->booking_time->format('l, F d H Y:i') }}</p>
                                 </div>
                                 <div>
                                     <p class="text-sm font-medium text-gray-500">Status</p>

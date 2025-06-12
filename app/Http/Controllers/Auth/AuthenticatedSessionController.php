@@ -13,11 +13,10 @@ class AuthenticatedSessionController extends Controller
     /**
      * Display the login view.
      */
-  public function index()
-{
-    return view('auth.login'); // pastikan view ini ada di resources/views/auth/login.blade.php
-}
-
+    public function create()
+    {
+        return view('auth.login');
+    }
 
     /**
      * Handle an incoming authentication request.
@@ -29,14 +28,11 @@ class AuthenticatedSessionController extends Controller
 
         // Redirect berdasarkan role
         $user = Auth::user();
-        switch($user->role) {
-            case 'admin':
-                return redirect()->route('admin.dashboard');
-            case 'employee':
-                return redirect()->route('employee.today-work');
-            default:
-                return redirect()->route('dashboard');
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard');
         }
+
+        return redirect()->intended(RouteServiceProvider::HOME);
     }
 
     /**
