@@ -17,25 +17,22 @@ class AdminController extends Controller
         $this->middleware('role:admin');
     }
 
-    
     public function dashboard()
     {
-        $todayBookings = Booking::whereDate('booking_time', Carbon::today())->count();
-        $pendingBookings = Booking::where('status', 'pending')->count();
-        $totalRevenue = Transaction::where('status', 'paid')->sum('amount');
-        $totalServices = Service::count();
-        $recentBookings = Booking::with(['user', 'vehicle', 'service'])
-            ->latest()
-            ->take(5)
-            ->get();
+        $data = [
+            'todayBookings' => Booking::whereDate('booking_time', Carbon::today())->count(),
+            'pendingBookings' => Booking::where('status', 'pending')->count(),
+            'totalRevenue' => Transaction::where('status', 'paid')->sum('amount') ?? 0,
+            'totalServices' => Service::count(),
+            'recentBookings' => Booking::with(['user', 'service'])
+                ->latest()
+                ->take(5)
+                ->get()
+        ];
     
-        return view('dashboard.admin', compact(
-            'todayBookings',
-            'pendingBookings',
-            'totalRevenue',
-            'totalServices',
-            'recentBookings'
-        ));
+        // Pastikan namespace Carbon sudah diimport
+    
+        return view('admin.dashboard', $data);
     }
 
     // Manajemen Layanan
